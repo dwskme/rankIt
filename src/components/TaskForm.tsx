@@ -28,9 +28,13 @@ export function TaskForm() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const task = e.currentTarget.value.trim();
-      if (task) {
+      if (task.length >= 4 && task.length <= 80) {
         onSubmit({ Task: task });
         e.currentTarget.value = "";
+      } else if (task.length < 4) {
+        alert("Task must be at least 4 characters long");
+      } else {
+        alert("Task cannot be longer than 80 characters");
       }
       e.preventDefault();
     }
@@ -45,8 +49,7 @@ export function TaskForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <ul>
           {tasks.map((task, index) => (
-            <li key={index}>
-              {task}
+            <li key={index}> {task}
               <span onClick={() => removeTask(index)} style={{ cursor: "pointer" }}>
                 &#10005;
               </span>
@@ -56,8 +59,7 @@ export function TaskForm() {
         <input
           {...register("Task", {
             required: true,
-            max: 80,
-            min: 4,
+            minLength: 4,
             maxLength: 80,
           })}
           onKeyDown={handleKeyDown}
@@ -65,13 +67,6 @@ export function TaskForm() {
         {errors.Task && errors.Task.type === "required" && (
           <span>This field is required</span>
         )}
-        {errors.Task && errors.Task.type === "min" && (
-          <span>Task must be at least 4 characters long</span>
-        )}
-        {errors.Task && errors.Task.type === "max" && (
-          <span>Task cannot be longer than 80 characters</span>
-        )}
-        <input type="submit" />
       </form>
     </>
   );
