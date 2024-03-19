@@ -1,30 +1,22 @@
-# React + TypeScript + Vite
+# RankIT 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+RankIT is a tool designed to help users prioritize their tasks efficiently using a prioritization matrix method. By comparing each task with another task, it facilitates the ranking of tasks in a more scientific manner.
 
-Currently, two official plugins are available:
+## Usecase 📋
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The use case involves accessing the website provided by RankIT to input tasks and compare them to determine their priority. Users can utilize this tool to streamline their task management process and ensure they focus on the most important tasks first.
 
-## Expanding the ESLint configuration
+## Website 💻
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Access the RankIT website at [https://ranktask.vercel.app](https://ranktask.vercel.app) to start prioritizing your tasks effectively.
 
-- Configure the top-level `parserOptions` property like this:
+## Project Support 🌟
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+If you find RankIT helpful, consider supporting the project in the following ways:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Star ⭐ the project on GitHub.
+- Visit the developer's blog at [https://samirkc.vercel.app](https://samirkc.vercel.app) for more insights and updates.
+- Follow the developer on Twitter at [https://twitter.com/dwsk69](https://twitter.com/dwsk69) for the latest news and announcements.
+
+Feel free to use, share, and contribute to RankIT to enhance task prioritization for everyone.
+

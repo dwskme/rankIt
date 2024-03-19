@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./DynamicGrid.css"
 
 interface DynamicGridProps {
-  rows: number;
-  columns: number;
+  tasks: string[];
 }
 
-const DynamicGrid: React.FC<DynamicGridProps> = ({ rows, columns }) => {
+const DynamicGrid: React.FC<DynamicGridProps> = ({ tasks }) => {
   const [gridStyles, setGridStyles] = useState('');
   const [gridItems, setGridItems] = useState<React.ReactNode[]>([]);
 
   useEffect(() => {
+    const columns = tasks.length;
+    const rows = tasks.length;
     const gridTemplateColumns = `repeat(${columns}, 1fr)`;
     const gridTemplateRows = `repeat(${rows}, 1fr)`;
 
@@ -49,7 +50,7 @@ const DynamicGrid: React.FC<DynamicGridProps> = ({ rows, columns }) => {
     }
 
     setGridItems(items);
-  }, [rows, columns]);
+  }, [tasks]);
 
   return (
     <div>
