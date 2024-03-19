@@ -1,0 +1,17 @@
+
+.task-list {
+  list-style: none;
+  padding: 0;
+}
+
+.task-item {
+  margin-bottom: 5px;
+}
+
+.task-input {
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+}
