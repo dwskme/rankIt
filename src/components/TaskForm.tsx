@@ -31,13 +31,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const task = e.currentTarget.value.trim();
-      if (task.length >= 4 && task.length <= 80) {
+      if (task.length >= 4 && task.length <= 12) {
         onSubmit({ Task: task });
         e.currentTarget.value = '';
       } else if (task.length < 4) {
         alert('Task must be at least 4 characters long');
       } else {
-        alert('Task cannot be longer than 80 characters');
+        alert('Task cannot be more than 12 characters');
       }
       e.preventDefault();
     }
@@ -59,7 +59,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
         {...register('Task', {
           required: true,
           minLength: 4,
-          maxLength: 80,
+          maxLength: 12,
         })}
         onKeyDown={handleKeyDown}
       />

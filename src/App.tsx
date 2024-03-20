@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import TaskForm from './components/TaskForm';
 import DynamicGrid from './components/DynamicGrid';
+import './App.css';
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<string[]>([]);
@@ -14,9 +15,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
-      <TaskForm onAddTask={handleAddTask} onRemoveTask={handleRemoveTask} tasks={tasks} />
-      <DynamicGrid tasks={tasks} />
+    <div className="app-container">
+      <div className="grid-container">
+        {tasks.length >= 2 && <DynamicGrid tasks={tasks} />}
+      </div>
+      <div className="task-list-container">
+        {tasks.length <= 7 &&
+          <TaskForm onAddTask={handleAddTask} onRemoveTask={handleRemoveTask} tasks={tasks} />
+        }
+      </div>
     </div>
   );
 };
