@@ -16,7 +16,7 @@ const DynamicGrid: React.FC<DynamicGridProps> = ({ tasks }) => {
     const gridTemplateRows = `repeat(${rows}, 1fr)`;
 
     let styles = `.parent {
-      display: grid;
+      display: inline-grid;
       grid-template-columns: ${gridTemplateColumns};
       grid-template-rows: ${gridTemplateRows};
       grid-column-gap: 0px;
@@ -38,12 +38,22 @@ const DynamicGrid: React.FC<DynamicGridProps> = ({ tasks }) => {
     const items: React.ReactNode[] = [];
     for (let i = 1; i <= rows; i++) {
       for (let j = 1; j <= i; j++) {
+        let content = `Row ${i}: Col ${j}`;
+        if (i === j) {
+          content = tasks[i - 1];
+        }
+        if (i === rows) {
+          content = tasks[j - 1];
+        }
+        if (i === j && i === rows) {
+          content = "Play"
+        }
         items.push(
           <div
             key={`${i}-${j}`}
             className={`div${(i - 1) * columns + j} square-block`}
           >
-            Row {i}: Col {j}
+            {content}
           </div>
         );
       }
