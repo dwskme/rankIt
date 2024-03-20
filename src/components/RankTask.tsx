@@ -18,9 +18,10 @@ const RankTask: React.FC<RankTaskProps> = ({ tasks, indexI, indexJ, onOptionSele
     setQuestion2(tasks[indexJ]);
   }, [tasks, indexI, indexJ]);
 
-  const handleOptionClick = (option: string, i: number, j: number) => {
+  const handleOptionClick = (option: string, indexI: number, indexJ: number) => {
+    updateGrid(indexI, indexJ)
+    console.log("indexI,IndexJ", indexI, indexJ)
     onOptionSelect(option);
-    updateGrid(i, j)
   };
 
   const renderResult = () => {
@@ -34,16 +35,16 @@ const RankTask: React.FC<RankTaskProps> = ({ tasks, indexI, indexJ, onOptionSele
       );
     }
   };
-  const updateGrid = (i: number, j: number) => {
-    const index = (i - 1) * tasks.length + j
+  const updateGrid = (indexI: number, indexJ: number) => {
+    const index = (indexI - 1) * tasks.length + indexJ
     const elementsWithClass: HTMLCollectionOf<Element> = document.getElementsByClassName('div' + index);
+    console.log("and:", 'div' + index)
     if (elementsWithClass.length > 0) {
       const changePropertiesButton: HTMLElement = elementsWithClass[0] as HTMLElement;
       changePropertiesButton.style.backgroundColor = 'blue';
     }
-
-
   }
+
   return (
     <div className='rank-task-container'>
       {renderResult() || (

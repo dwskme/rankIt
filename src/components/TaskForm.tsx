@@ -44,11 +44,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
     }
   };
 
-
-
   const [isRanking, setIsRanking] = useState(false);
-  const [indexI, setCurrentIndexI] = useState(1);
-  const [indexJ, setCurrentIndexJ] = useState(1);
+  const [indexI, setCurrentIndexI] = useState(0);
+  const [indexJ, setCurrentIndexJ] = useState(0);
   const [_ranks, setRanks] = useState<{ [key: string]: number }>({});
 
   const onSubmitRankHandler = () => {
@@ -59,62 +57,64 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
         if (i === j) {
           continue
         }
-        setCurrentIndexI(j-1)
-        setCurrentIndexJ(i-1)
+        setCurrentIndexI(j - 1)
+        setCurrentIndexJ(i - 1)
+        console.log("setcurretntindex:", "i", j - 1, "j", i - 1)
       }
+    }
   }
 
-    const handleOptionSelect = (option: string) => {
-      setRanks((prevRanks) => ({
-        ...prevRanks,
-        [option]: (prevRanks[option] || 0) + 1,
-      }));
-      setCurrentIndexI(indexI+1);
-    };
-    const finishRanking = () => {
-      setIsRanking(false);
-    };
-    return (
-      <>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ul>
-            {tasks.map((task, index) => (
-              <li key={index}>
-                {task}
-                <span onClick={() => onRemoveTask(index)} style={{ cursor: 'pointer' }}>
-                  &#10005;
-                </span>
-              </li>
-            ))}
-          </ul>
-          <input
-            {...register('Task', {
-              required: true,
-              minLength: 4,
-              maxLength: 12,
-            })}
-            onKeyDown={handleKeyDown}
-          />
-          {/* FIXME: Proper error handling */}
-          {errors.Task && errors.Task.type === 'required' && (
-            <span>This field is required</span>
-          )}
-        </form>
-        <button type='submit' onClick={onSubmitRankHandler}>
-          Play
-        </button>
-        {isRanking && (
-          <RankTask
-            tasks={tasks}
-            indexI={indexI}
-            indexJ={indexJ}
-            onOptionSelect={handleOptionSelect}
-            onFinish={finishRanking}
-          />
+  const handleOptionSelect = (option: string) => {
+    setRanks((prevRanks) => ({
+      ...prevRanks,
+      [option]: (prevRanks[option] || 0) + 1,
+    }));
+  };
+
+  const finishRanking = () => {
+    setIsRanking(false);
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ul>
+          {tasks.map((task, index) => (
+            <li key={index}>
+              {task}
+              <span onClick={() => onRemoveTask(index)} style={{ cursor: 'pointer' }}>
+                &#10005;
+              </span>
+            </li>
+          ))}
+        </ul>
+        <input
+          {...register('Task', {
+            required: true,
+            minLength: 4,
+            maxLength: 12,
+          })}
+          onKeyDown={handleKeyDown}
+        />
+        {/* FIXME: Proper error handling */}
+        {errors.Task && errors.Task.type === 'required' && (
+          <span>This field is required</span>
         )}
-      </>
-    );
-  }
+      </form>
+      <button type='submit' onClick={onSubmitRankHandler}>
+        Play
+      </button>
+      {isRanking && (
+        <RankTask
+          tasks={tasks}
+          indexI={indexI}
+          indexJ={indexJ}
+          onOptionSelect={handleOptionSelect}
+          onFinish={finishRanking}
+        />
+      )}
+    </>
+  );
 };
 
-  export default TaskForm;
+
+export default TaskForm;
