@@ -42,12 +42,6 @@ const DynamicGrid: React.FC<DynamicGridProps> = ({ tasks }) => {
         if (i === j) {
           content = tasks[i - 1];
         }
-        if (i === rows) {
-          content = tasks[j - 1];
-        }
-        if (i === j && i === rows) {
-          content = "Play"
-        }
         items.push(
           <div
             key={`${i}-${j}`}
