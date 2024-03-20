@@ -1,0 +1,14 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.grid-container {
+  margin: 40px;
+  flex: 1;
+  min-width: 60%;
+}
+
+.task-list-container {
+  flex: 2;
+}
