@@ -13,7 +13,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, description, githubLink }) => {
     <div className="top-bar">
       <div className="project-info">
         <h1>{title}</h1>
-        <span>{description}</span>
+        <h4>{description}</h4>
       </div>
       <div className="github-link">
         <a href={githubLink} target="_blank" rel="noopener noreferrer">

@@ -1,23 +1,24 @@
 .top-bar {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 4px;
   background: #0e1217;
-}
-
-h1 {
-  margin: 8px;
-  padding: 4px;
+  z-index: 1000; /* Ensure top bar is above other content */
 }
 
 .project-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: baseline;
 }
 
 .project-info h1 {
   margin: 0;
+  margin: 8px;
+  padding: 4px;
 }
 
 .github-link {
