@@ -28,18 +28,12 @@ body {
   padding: 0;
   display: flex;
   place-items: center;
-  min-height: 100vh;
 }
 
 #root {
   padding: 0;
   margin: 0;
   width: 100vw;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {

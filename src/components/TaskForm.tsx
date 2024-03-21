@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import React from 'react';
+import { useState } from 'react';
+import RankTask from './RankTask';
 
 type Inputs = {
   Task: string;
@@ -43,30 +44,57 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
     }
   };
 
+  const [isRanking, setIsRanking] = useState(false);
+  const [ranks, setRanks] = useState<{ [key: string]: number }>({});
+
+  const onSubmitRankHandler = () => {
+    setIsRanking(true);
+    setRanks(tasks.reduce((acc, task) => ({ ...acc, [task]: 0 }), {}));
+  };
+
+  const handleOptionSelect = (option: string) => {
+    setRanks((prevRanks) => ({
+      ...prevRanks,
+      [option]: (prevRanks[option] || 0) + 1,
+    }));
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            {task}
-            <span onClick={() => onRemoveTask(index)} style={{ cursor: 'pointer' }}>
-              &#10005;
-            </span>
-          </li>
-        ))}
-      </ul>
-      <input
-        {...register('Task', {
-          required: true,
-          minLength: 4,
-          maxLength: 12,
-        })}
-        onKeyDown={handleKeyDown}
-      />
-      {errors.Task && errors.Task.type === 'required' && (
-        <span>This field is required</span>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <ul>
+          {tasks.map((task, index) => (
+            <li key={index}>
+              {task}
+              <span onClick={() => onRemoveTask(index)} style={{ cursor: 'pointer' }}>
+                &#10005;
+              </span>
+            </li>
+          ))}
+        </ul>
+        <input
+          {...register('Task', {
+            required: true,
+            minLength: 4,
+            maxLength: 12,
+          })}
+          onKeyDown={handleKeyDown}
+        />
+        {/* FIXME: Proper error handling */}
+        {errors.Task && errors.Task.type === 'required' && <span>This field is required</span>}
+      </form>
+      <button type='submit' onClick={onSubmitRankHandler}>
+        Play
+      </button>
+      {isRanking && (
+        <RankTask
+          tasks={tasks}
+          onOptionSelect={handleOptionSelect}
+          onFinish={() => setIsRanking(false)}
+          ranks={ranks}
+        />
       )}
-    </form>
+    </>
   );
 };
 
