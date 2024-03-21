@@ -1,61 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import './RankTask.css';
+import ResultTable from './ResultTable';
 
 interface RankTaskProps {
   tasks: string[];
-  indexI: number;
-  indexJ: number;
-  onOptionSelect: (option: string) => void;
-  onFinish: () => void;
+  onOptionSelect: (option: string, indexI: number, indexJ: number) => void;
+  onFinish: (ranks: { [key: string]: number }) => void;
+  ranks: { [key: string]: number };
 }
 
-const RankTask: React.FC<RankTaskProps> = ({ tasks, indexI, indexJ, onOptionSelect, onFinish, }) => {
-
+const RankTask: React.FC<RankTaskProps> = ({ tasks, onOptionSelect, onFinish, ranks }) => {
   const [question1, setQuestion1] = useState('');
   const [question2, setQuestion2] = useState('');
+  const [indexI, setIndexI] = useState(0);
+  const [indexJ, setIndexJ] = useState(1);
+  const [isRankingCompleted, setIsRankingCompleted] = useState(false);
+
   useEffect(() => {
     setQuestion1(tasks[indexI]);
     setQuestion2(tasks[indexJ]);
   }, [tasks, indexI, indexJ]);
 
-  const handleOptionClick = (option: string, indexI: number, indexJ: number) => {
-    updateGrid(indexI, indexJ)
-    console.log("indexI,IndexJ", indexI, indexJ)
-    onOptionSelect(option);
+  const handleOptionClick = (option: string) => {
+    onOptionSelect(option, indexI, indexJ);
+    updateIndices();
   };
 
-  const renderResult = () => {
-    if (indexI >= tasks.length - 1) {
-      onFinish();
-      return (
-        <div className='result-container'>
-          <h2>Ranking Completed</h2>
-          {/* Add your result rendering logic here */}
-        </div>
-      );
+  const updateIndices = () => {
+    if (indexJ === tasks.length - 1) {
+      setIndexI(indexI + 1);
+      setIndexJ(indexI + 2);
+    } else {
+      setIndexJ(indexJ + 1);
+    }
+
+    if (indexI === tasks.length - 1 && indexJ === tasks.length) {
+      setIsRankingCompleted(true);
+      onFinish(ranks);
     }
   };
-  const updateGrid = (indexI: number, indexJ: number) => {
-    const index = (indexI - 1) * tasks.length + indexJ
-    const elementsWithClass: HTMLCollectionOf<Element> = document.getElementsByClassName('div' + index);
-    console.log("and:", 'div' + index)
-    if (elementsWithClass.length > 0) {
-      const changePropertiesButton: HTMLElement = elementsWithClass[0] as HTMLElement;
-      changePropertiesButton.style.backgroundColor = 'blue';
-    }
-  }
 
   return (
-    <div className='rank-task-container'>
-      {renderResult() || (
+    <div className="rank-task-container">
+      {isRankingCompleted ? (
+        <ResultTable ranks={ranks} />
+      ) : (
         <>
-          <div className='option-card'>
+          <div className="option-card">
             <h3>{question1}</h3>
-            <button onClick={() => handleOptionClick(question1, indexI, indexJ)}>Rank Higher</button>
+            <button onClick={() => handleOptionClick(question1)}>Rank Higher</button>
           </div>
-          <div className='option-card'>
+          <div className="option-card">
             <h3>{question2}</h3>
-            <button onClick={() => handleOptionClick(question2, indexI, indexJ)}>Rank Higher</button>
+            <button onClick={() => handleOptionClick(question2)}>Rank Higher</button>
           </div>
         </>
       )}

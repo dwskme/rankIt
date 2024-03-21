@@ -45,24 +45,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
   };
 
   const [isRanking, setIsRanking] = useState(false);
-  const [indexI, setCurrentIndexI] = useState(0);
-  const [indexJ, setCurrentIndexJ] = useState(0);
-  const [_ranks, setRanks] = useState<{ [key: string]: number }>({});
+  const [ranks, setRanks] = useState<{ [key: string]: number }>({});
 
   const onSubmitRankHandler = () => {
     setIsRanking(true);
     setRanks(tasks.reduce((acc, task) => ({ ...acc, [task]: 0 }), {}));
-    for (let i = 1; i <= tasks.length; i++) {
-      for (let j = 1; j <= i; j++) {
-        if (i === j) {
-          continue
-        }
-        setCurrentIndexI(j - 1)
-        setCurrentIndexJ(i - 1)
-        console.log("setcurretntindex:", "i", j - 1, "j", i - 1)
-      }
-    }
-  }
+  };
 
   const handleOptionSelect = (option: string) => {
     setRanks((prevRanks) => ({
@@ -71,9 +59,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
     }));
   };
 
-  const finishRanking = () => {
-    setIsRanking(false);
-  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,9 +81,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
           onKeyDown={handleKeyDown}
         />
         {/* FIXME: Proper error handling */}
-        {errors.Task && errors.Task.type === 'required' && (
-          <span>This field is required</span>
-        )}
+        {errors.Task && errors.Task.type === 'required' && <span>This field is required</span>}
       </form>
       <button type='submit' onClick={onSubmitRankHandler}>
         Play
@@ -106,15 +89,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask, onRemoveTask, tasks }) =
       {isRanking && (
         <RankTask
           tasks={tasks}
-          indexI={indexI}
-          indexJ={indexJ}
           onOptionSelect={handleOptionSelect}
-          onFinish={finishRanking}
+          onFinish={() => setIsRanking(false)}
+          ranks={ranks}
         />
       )}
     </>
   );
 };
-
 
 export default TaskForm;
