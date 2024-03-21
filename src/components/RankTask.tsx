@@ -17,16 +17,23 @@ const RankTask: React.FC<RankTaskProps> = ({ tasks, onOptionSelect, onFinish, ra
   const [isRankingCompleted, setIsRankingCompleted] = useState(false);
 
   useEffect(() => {
-    setQuestion1(tasks[indexI]);
-    setQuestion2(tasks[indexJ]);
+    if (indexI < tasks.length && indexJ < tasks.length) {
+      setQuestion1(tasks[indexI]);
+      setQuestion2(tasks[indexJ]);
+    }
   }, [tasks, indexI, indexJ]);
 
   const handleOptionClick = (option: string) => {
     onOptionSelect(option, indexI, indexJ);
     updateIndices();
+    // updateGrid(indexI, indexJ);
   };
 
   const updateIndices = () => {
+    if (indexI === tasks.length - 2 && indexJ === tasks.length - 1) {
+      setIsRankingCompleted(true);
+      onFinish(ranks);
+    }
     if (indexJ === tasks.length - 1) {
       setIndexI(indexI + 1);
       setIndexJ(indexI + 2);
@@ -34,12 +41,18 @@ const RankTask: React.FC<RankTaskProps> = ({ tasks, onOptionSelect, onFinish, ra
       setIndexJ(indexJ + 1);
     }
 
-    if (indexI === tasks.length - 1 && indexJ === tasks.length) {
-      setIsRankingCompleted(true);
-      onFinish(ranks);
-    }
-  };
+  }
 
+  // const updateGrid = (indexI: number, indexJ: number) => {
+  //   const index = indexI * tasks.length + indexJ;
+  //   const elementsWithClass: HTMLCollectionOf<Element> = document.getElementsByClassName(`div${index}`);
+  //   console.log("div value:", `div${index}`)
+  //   for (let i = 0; i < elementsWithClass.length; i++) {
+  //     const element = elementsWithClass[i] as HTMLElement;
+  //     element.style.backgroundColor = 'blue';
+  //   }
+  // };
+  //
   return (
     <div className="rank-task-container">
       {isRankingCompleted ? (
